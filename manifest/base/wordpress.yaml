@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress-service
-  namespace: wordpress
   labels:
     app: wordpress
     type: frontend
@@ -23,7 +22,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wp-pv-claim1
-  namespace: wordpress  
   labels:
     app: wordpress
 spec:
@@ -38,7 +36,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress-deployment
-  namespace: wordpress
   labels:
     app: wordpress
     type: frontend
@@ -48,6 +45,11 @@ spec:
       app: wordpress
       type: frontend
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0 
   template:
     metadata:
       labels:
